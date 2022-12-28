@@ -43,9 +43,7 @@ def show_all_pokemons(request):
     pokemons_from_model = Pokemon.objects.all()
     pokemons_on_page = []
     for pokemon in pokemons_from_model:
-        photo_url = None
-        if pokemon.photo:
-            photo_url = pokemon.photo.url
+        photo_url = pokemon.get_photo_url(request)
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
             'img_url': photo_url,
