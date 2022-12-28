@@ -66,6 +66,8 @@ def show_pokemon(request, pokemon_id):
         pokemon_metadata = {
             "pokemon_id": pokemon.id,
             "title_ru": pokemon.title,
+            "title_en": pokemon.title_en,
+            "title_jp": pokemon.title_jp,
             "img_url": photo_url,
             "description": pokemon.description
         }
