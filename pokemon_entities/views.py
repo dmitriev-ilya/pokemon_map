@@ -70,6 +70,14 @@ def show_pokemon(request, pokemon_id):
                 "pokemon_id": previous_evolution.id,
                 "img_url": previous_evolution.get_photo_url(request)
             }
+        next_evolution = pokemon.pokemon_set.first()
+        if next_evolution:
+            next_evolution = {
+                "title_ru": next_evolution.title,
+                "pokemon_id": next_evolution.id,
+                "img_url": next_evolution.get_photo_url(request)
+            }
+
         pokemon_metadata = {
             "pokemon_id": pokemon.id,
             "title_ru": pokemon.title,
@@ -77,7 +85,8 @@ def show_pokemon(request, pokemon_id):
             "title_jp": pokemon.title_jp,
             "img_url": photo_url,
             "description": pokemon.description,
-            "previous_evolution": previous_evolution
+            "previous_evolution": previous_evolution,
+            "next_evolution": next_evolution
         }
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
