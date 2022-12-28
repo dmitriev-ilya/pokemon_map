@@ -63,13 +63,21 @@ def show_pokemon(request, pokemon_id):
     try:
         pokemon = Pokemon.objects.get(id=int(pokemon_id))
         photo_url = pokemon.get_photo_url(request)
+        previous_evolution = pokemon.previous_evolution
+        if previous_evolution:
+            previous_evolution = {
+                "title_ru": previous_evolution.title,
+                "pokemon_id": previous_evolution.id,
+                "img_url": previous_evolution.get_photo_url(request)
+            }
         pokemon_metadata = {
             "pokemon_id": pokemon.id,
             "title_ru": pokemon.title,
             "title_en": pokemon.title_en,
             "title_jp": pokemon.title_jp,
             "img_url": photo_url,
-            "description": pokemon.description
+            "description": pokemon.description,
+            "previous_evolution": previous_evolution
         }
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')

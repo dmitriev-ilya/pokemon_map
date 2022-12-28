@@ -7,7 +7,12 @@ class Pokemon (models.Model):
     title_jp = models.CharField(max_length=200, blank=True, null=True)
     photo = models.ImageField(blank=True, null=True)
     description = models.TextField(default='Description not added yet')
-    
+    previous_evolution = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )   
 
     def get_photo_url(self, request):
         photo_url = None
