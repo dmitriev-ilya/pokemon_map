@@ -4,6 +4,7 @@ from django.db import models  # noqa F401
 class Pokemon (models.Model):
     title = models.CharField(max_length=200)
     photo = models.ImageField(blank=True, null=True)
+    description = models.TextField(default='Description not added yet')
 
     def get_photo_url(self, request):
         photo_url = None

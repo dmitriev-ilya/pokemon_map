@@ -1,5 +1,4 @@
 import folium
-import json
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
@@ -67,7 +66,8 @@ def show_pokemon(request, pokemon_id):
         pokemon_metadata = {
             "pokemon_id": pokemon.id,
             "title_ru": pokemon.title,
-            "img_url": photo_url
+            "img_url": photo_url,
+            "description": pokemon.description
         }
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
