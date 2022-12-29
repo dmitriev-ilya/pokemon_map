@@ -23,7 +23,7 @@ class Pokemon(models.Model):
         return photo_url
 
     def __str__(self):
-        return f'{self.title}'
+        return self.title
 
 
 class PokemonEntity(models.Model):
