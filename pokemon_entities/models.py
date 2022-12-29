@@ -1,6 +1,13 @@
 from django.db import models  # noqa F401
 
 
+DEFAULT_IMAGE_URL = (
+    'https://vignette.wikia.nocookie.net/pokemon/images/6/6e/%21.png/revision'
+    '/latest/fixed-aspect-ratio-down/width/240/height/240?cb=20130525215832'
+    '&fill=transparent'
+)
+
+
 class Pokemon(models.Model):
     title = models.CharField('Название на русском',max_length=200)
     title_en = models.CharField('Название на английском', max_length=200, default='')
@@ -17,7 +24,7 @@ class Pokemon(models.Model):
     )
 
     def get_photo_url(self, request):
-        photo_url = None
+        photo_url = DEFAULT_IMAGE_URL
         if self.photo:
             photo_url = request.build_absolute_uri(self.photo.url)
         return photo_url
