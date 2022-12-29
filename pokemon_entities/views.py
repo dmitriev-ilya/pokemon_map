@@ -24,9 +24,10 @@ def add_pokemon(folium_map, lat, lon, image_url):
 
 
 def show_all_pokemons(request):
+    current_date_time = localtime()
     pokemon_entities = PokemonEntity.objects.filter(
-        appeared_at__lte=localtime(),
-        disappeared_at__gte=localtime()
+        appeared_at__lte=current_date_time,
+        disappeared_at__gte=current_date_time
     )
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
@@ -86,10 +87,11 @@ def show_pokemon(request, pokemon_id):
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
     
+    current_date_time = localtime()
     pokemon_entities = PokemonEntity.objects.filter(
         pokemon=pokemon,
-        appeared_at__lte=localtime(),
-        disappeared_at__gte=localtime()
+        appeared_at__lte=current_date_time,
+        disappeared_at__gte=current_date_time
     )
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemon_entities:
