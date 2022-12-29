@@ -72,7 +72,7 @@ def show_pokemon(request, pokemon_id):
             "img_url": next_evolution.get_photo_url(request)
         }
 
-    pokemon_metadata = {
+    serialized_pokemon = {
         "pokemon_id": pokemon.id,
         "title_ru": pokemon.title,
         "title_en": pokemon.title_en,
@@ -98,5 +98,5 @@ def show_pokemon(request, pokemon_id):
         )
 
     return render(request, 'pokemon.html', context={
-        'map': folium_map._repr_html_(), 'pokemon': pokemon_metadata
+        'map': folium_map._repr_html_(), 'pokemon': serialized_pokemon
     })
