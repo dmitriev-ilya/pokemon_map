@@ -1,7 +1,6 @@
 import folium
 
-from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils.timezone import localtime
 
 from .models import Pokemon, PokemonEntity
@@ -56,36 +55,33 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    try:
-        pokemon = Pokemon.objects.get(id=int(pokemon_id))
-        photo_url = pokemon.get_photo_url(request)
-        previous_evolution = pokemon.previous_evolution
-        if previous_evolution:
-            previous_evolution = {
-                "title_ru": previous_evolution.title,
-                "pokemon_id": previous_evolution.id,
-                "img_url": previous_evolution.get_photo_url(request)
-            }
-        next_evolution = pokemon.next_evolution.first()
-        if next_evolution:
-            next_evolution = {
-                "title_ru": next_evolution.title,
-                "pokemon_id": next_evolution.id,
-                "img_url": next_evolution.get_photo_url(request)
-            }
-
-        pokemon_metadata = {
-            "pokemon_id": pokemon.id,
-            "title_ru": pokemon.title,
-            "title_en": pokemon.title_en,
-            "title_jp": pokemon.title_jp,
-            "img_url": photo_url,
-            "description": pokemon.description,
-            "previous_evolution": previous_evolution,
-            "next_evolution": next_evolution
+    pokemon = get_object_or_404(Pokemon, id=int(pokemon_id))
+    photo_url = pokemon.get_photo_url(request)
+    previous_evolution = pokemon.previous_evolution
+    if previous_evolution:
+        previous_evolution = {
+            "title_ru": previous_evolution.title,
+            "pokemon_id": previous_evolution.id,
+            "img_url": previous_evolution.get_photo_url(request)
         }
-    except Pokemon.DoesNotExist:
-        return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
+    next_evolution = pokemon.next_evolution.first()
+    if next_evolution:
+        next_evolution = {
+            "title_ru": next_evolution.title,
+            "pokemon_id": next_evolution.id,
+            "img_url": next_evolution.get_photo_url(request)
+        }
+
+    pokemon_metadata = {
+        "pokemon_id": pokemon.id,
+        "title_ru": pokemon.title,
+        "title_en": pokemon.title_en,
+        "title_jp": pokemon.title_jp,
+        "img_url": photo_url,
+        "description": pokemon.description,
+        "previous_evolution": previous_evolution,
+        "next_evolution": next_evolution
+    }
 
     current_date_time = localtime()
     pokemon_entities = PokemonEntity.objects.filter(
