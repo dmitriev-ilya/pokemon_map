@@ -12,7 +12,8 @@ class Pokemon(models.Model):
         verbose_name='Предыдущая стадия',
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        related_name='next_evolution'
     )
 
     def get_photo_url(self, request):
@@ -28,7 +29,12 @@ class Pokemon(models.Model):
 class PokemonEntity(models.Model):
     latitude = models.FloatField('Широта')
     longitude = models.FloatField('Долгота')
-    pokemon = models.ForeignKey(Pokemon, verbose_name='Покемон', on_delete=models.CASCADE)
+    pokemon = models.ForeignKey(
+        Pokemon,
+        verbose_name='Покемон',
+        on_delete=models.CASCADE,
+        related_name='entities'
+    )
     appeared_at = models.DateTimeField('Появляется', null=True, blank=True)
     disappeared_at = models.DateTimeField('Исчезает', null=True, blank=True)
     level = models.IntegerField('Уровень', null=True, blank=True)

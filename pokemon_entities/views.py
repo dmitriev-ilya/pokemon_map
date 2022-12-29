@@ -70,7 +70,7 @@ def show_pokemon(request, pokemon_id):
                 "pokemon_id": previous_evolution.id,
                 "img_url": previous_evolution.get_photo_url(request)
             }
-        next_evolution = pokemon.pokemon_set.first()
+        next_evolution = pokemon.next_evolution.first()
         if next_evolution:
             next_evolution = {
                 "title_ru": next_evolution.title,
