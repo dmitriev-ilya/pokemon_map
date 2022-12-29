@@ -38,10 +38,10 @@ def show_all_pokemons(request):
             pokemon_entity.longitude,
             photo_url
         )
-    
-    pokemons_from_model = Pokemon.objects.all()
+
+    pokemons = Pokemon.objects.all()
     pokemons_on_page = []
-    for pokemon in pokemons_from_model:
+    for pokemon in pokemons:
         photo_url = pokemon.get_photo_url(request)
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
@@ -86,7 +86,7 @@ def show_pokemon(request, pokemon_id):
         }
     except Pokemon.DoesNotExist:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
-    
+
     current_date_time = localtime()
     pokemon_entities = PokemonEntity.objects.filter(
         pokemon=pokemon,
